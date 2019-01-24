@@ -46,13 +46,26 @@ public class AulaBuscas {
         
     }
     
+    public static int calcularH(No noAtual, No noDestino)
+    {
+        int posicaoDestinoX = (noDestino.getId()+1)%colunas;
+        int posicaoNoAtualX = (noAtual.getId()+1)%colunas;
+        int distanciaX = posicaoDestinoX > posicaoNoAtualX ? posicaoDestinoX - posicaoNoAtualX : posicaoNoAtualX - posicaoDestinoX;
+        
+        int posicaoDestinoY = (noDestino.getId()+1)/linhas;
+        int posicaoNoAtualY = (noAtual.getId()+1)/linhas;
+        int distanciaY = posicaoDestinoY > posicaoNoAtualY ? posicaoDestinoY - posicaoNoAtualY : posicaoNoAtualY - posicaoDestinoY;
+        
+        return distanciaX+distanciaY;
+    }
+    
     
     
     public static void configuraMapa()
     {
         for(No no: mapa)
         {
-            //no.vizinhos.addAll(acharCantos(no));
+            no.vizinhos.addAll(acharCantos(no));
             no.vizinhos.addAll(acharOrtogonais(no));
         }
     }
@@ -132,7 +145,7 @@ public class AulaBuscas {
         for(No no: mapa.get(37).vizinhos){
             System.out.println("Noh: "+ no.getId());
         }
-        
+        System.out.println("Noh: "+ mapa.get(37).getId()+" - G: "+ calcularG(mapa.get(37), mapa.get(36)));
         
         
     }
