@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class AulaBuscas {
     public static List<No> mapa = new ArrayList();
-    public static int linhas = 8;
-    public static int colunas = 8;
+    public static int linhas = 7;
+    public static int colunas = 6;
     /**
      * @param args the command line arguments
      */
@@ -23,9 +23,9 @@ public class AulaBuscas {
     public static void criaMapa()
     {
         int contador = 0;
-        for (int i = 0; i<linhas; i++)
+        for (int i = 0; i<colunas; i++)
         {
-            for (int j = 0; j<colunas; j++)
+            for (int j = 0; j<linhas; j++)
             {
                 
                 No no = new No(contador);
@@ -36,25 +36,38 @@ public class AulaBuscas {
         }
     }
     
+    public static int calcularG(No noAtual, No noVizinho)
+    {
+        if (noVizinho.getId() % colunas == noAtual.getId() % colunas || noVizinho.getId() + 1 == noAtual.getId() || noVizinho.getId() - 1 == noAtual.getId()) {
+            return noVizinho.getG() + 10;
+        } else {
+            return noVizinho.getG() + 14;
+        }
+        
+    }
+    
+    
+    
     public static void configuraMapa()
     {
         for(No no: mapa)
         {
-            //calcular linha
-            int linha = (no.getId()/linhas)+1;
-            //calcula coluna
-            int coluna = (no.getId()%colunas)+1;
-            
-            //System.out.println(linha+" "+coluna);
-            no.vizinhos.addAll(acharCantos(linha,coluna, no));
-            no.vizinhos.addAll(acharOrtogonais(linha,coluna, no));
+            //no.vizinhos.addAll(acharCantos(no));
+            no.vizinhos.addAll(acharOrtogonais(no));
         }
     }
     
-    public static List<No> acharCantos(int linhaDoNo, int colunaDoNo, No no)
+    public static List<No> acharCantos(No no)
     {
         int id = no.getId();
         List<No> list = new ArrayList();
+        
+        //calcular linha
+        int linhaDoNo = (no.getId()/linhas)+1;
+        //calcula coluna
+        int colunaDoNo = (no.getId()%colunas)+1;
+            
+            
         //pega canto superior esquerda
         if (linhaDoNo > 1 && colunaDoNo > 1) {
             list.add(mapa.get((id - colunas) - 1));
@@ -64,11 +77,11 @@ public class AulaBuscas {
             list.add(mapa.get((id - colunas) + 1));
         }
         
-        //pegar canto superior esquerdo
+        //pegar canto infoerior esquerdo
         if (linhaDoNo < mapa.size() / linhas && colunaDoNo > 1) {
             list.add(mapa.get((id + colunas) - 1));
         }
-        //pegar canto superior direito
+        //pegar canto inferior direito
         if (linhaDoNo < mapa.size() / linhas && colunaDoNo < colunas) {
             list.add(mapa.get((id + colunas) + 1));
         }
@@ -76,8 +89,12 @@ public class AulaBuscas {
         return list;
     }
     
-    public static List<No> acharOrtogonais (int linhaDoNo, int colunaDoNo, No no)
-    {
+    public static List<No> acharOrtogonais (No no)
+    {   
+        //calcular linha
+        int linhaDoNo = (no.getId()/linhas)+1;
+        //calcula coluna
+        int colunaDoNo = (no.getId()%colunas)+1;
         List<No> list = new ArrayList();
         int id = no.getId();
         //pegar vizinho esquerdo
@@ -85,12 +102,14 @@ public class AulaBuscas {
             list.add(mapa.get(id - 1));
         }
         //pegar vizinho direito
-       	if (colunaDoNo < colunaDoNo) {
+       	if (colunaDoNo < colunas) {
             list.add(mapa.get(id + 1));
         }
+        //pegar vizinho cima
         if (linhaDoNo > 1) {
-            list.add(mapa.get(id - colunaDoNo));
+            list.add(mapa.get((id - linhas)+1));
         }
+        //pegar vizinho baixo
         if (linhaDoNo < mapa.size()/linhas) {
             list.add(mapa.get(id + colunas));
         }
@@ -104,9 +123,17 @@ public class AulaBuscas {
         criaMapa();
         configuraMapa();
         
+        //System.out.println(mapa.get(0).vizinhos);
+        
         for(No no: mapa){
             System.out.println("Noh: "+ no.getId());
         }
+        System.out.println("--------------------------------");
+        for(No no: mapa.get(37).vizinhos){
+            System.out.println("Noh: "+ no.getId());
+        }
+        
+        
         
     }
     
