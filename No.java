@@ -14,10 +14,14 @@ import java.util.List;
  */
 public class No {
     private int id;
-    private int h, g, f;
+    private float h, g, f;
     private boolean locked;
     private No parent;
     public  List<No> vizinhos = new ArrayList();
+
+    public List<No> getVizinhos() {
+        return vizinhos;
+    }
 
     public int getId() {
         return id;
@@ -27,29 +31,31 @@ public class No {
         this.id = id;
     }
 
-    public int getH() {
+    public float getH() {
         return h;
     }
 
-    public void setH(int h) {
+    public void setH(float h) {
         this.h = h;
     }
 
-    public int getG() {
+    public float getG() {
         return g;
     }
 
-    public void setG(int g) {
+    public void setG(float g) {
         this.g = g;
     }
 
-    public int getF() {
+    public float getF() {
         return f;
     }
 
-    public void setF(int f) {
+    public void setF(float f) {
         this.f = f;
     }
+
+    
 
     public boolean isLocked() {
         return locked;
