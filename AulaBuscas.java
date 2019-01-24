@@ -5,79 +5,125 @@
  */
 package aulabuscas;
 
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
 
 /**
  *
  * @author adalberto.bcpereira
  */
-public class AEstrela {
-    public static List<No> listaFechada = new ArrayList();
-    public static List<No> listaAberta = new ArrayList();
-    public static List<No> caminho = new ArrayList();
+public class AulaBuscas {
+    public static List<No> mapa = new ArrayList();
+    public static int linhas = 7;
+    public static int colunas = 6;
+    /**
+     * @param args the command line arguments
+     */
     
-    public static List<No> aEstrela(No noInicial, No noDestino)
+    public static void criaMapa()
     {
-        No noAtual = noInicial;
-        listaAberta.add(noInicial);
-        
-        while(true)
+        int contador = 0;
+        for (int i = 0; i<colunas; i++)
         {
-            noAtual = procularMenorF();
+            for (int j = 0; j<linhas; j++)
+            {
+                
+                No no = new No(contador);
+                mapa.add(no);
+                
+                contador++;
+            }
+        }
+    }
+    
+    
+    public static void configuraMapa()
+    {
+        for(No no: mapa)
+        {
+            no.vizinhos.addAll(acharCantos(no));
+            no.vizinhos.addAll(acharOrtogonais(no));
+        }
+    }
+    
+    public static List<No> acharCantos(No no)
+    {
+        int id = no.getId();
+        List<No> list = new ArrayList();
+        
+        //calcular linha
+        int linhaDoNo = (no.getId()/linhas)+1;
+        //calcula coluna
+        int colunaDoNo = (no.getId()%colunas)+1;
+            
+            
+        //pega canto superior esquerda
+        if (linhaDoNo > 1 && colunaDoNo > 1) {
+            list.add(mapa.get((id - colunas) - 1));
+        }
+        //pega canto superior direita
+        if (linhaDoNo > 1 && colunaDoNo < colunas) {
+            list.add(mapa.get((id - colunas) + 1));
         }
         
-    }
-    
-    public static No procularMenorF() {
-        Collections.sort(listaAberta, Comparator.comparing(No::getF));
-        return listaAberta.get(0);
-        
-    }
-    
-    
-       
-    public static void calcularF(No noAtual)
-    {
-        float F = 0;
-        for(No no: noAtual.getVizinhos())
-        {
-            F= calcularH(noAtual,no) + (float)calcularG(noAtual, no);
-            no.setF(F);
+        //pegar canto infoerior esquerdo
+        if (linhaDoNo < mapa.size() / linhas && colunaDoNo > 1) {
+            list.add(mapa.get((id + colunas) - 1));
+        }
+        //pegar canto inferior direito
+        if (linhaDoNo < mapa.size() / linhas && colunaDoNo < colunas) {
+            list.add(mapa.get((id + colunas) + 1));
         }
 
+        return list;
     }
     
-    public static float calcularG(No noAtual, No noVizinho)
-    {
-        if (noVizinho.getId() % AulaBuscas.colunas == noAtual.getId() % AulaBuscas.colunas || noVizinho.getId() + 1 == noAtual.getId() || noVizinho.getId() - 1 == noAtual.getId()) {
-            return noVizinho.getG() + 10;
-        } else {
-            return noVizinho.getG() + 14;
+    public static List<No> acharOrtogonais (No no)
+    {   
+        //calcular linha
+        int linhaDoNo = (no.getId()/linhas)+1;
+        //calcula coluna
+        int colunaDoNo = (no.getId()%colunas)+1;
+        List<No> list = new ArrayList();
+        int id = no.getId();
+        //pegar vizinho esquerdo
+        if (colunaDoNo > 1) {
+            list.add(mapa.get(id - 1));
+        }
+        //pegar vizinho direito
+       	if (colunaDoNo < colunas) {
+            list.add(mapa.get(id + 1));
+        }
+        //pegar vizinho cima
+        if (linhaDoNo > 1) {
+            list.add(mapa.get((id - linhas)+1));
+        }
+        //pegar vizinho baixo
+        if (linhaDoNo < mapa.size()/linhas) {
+            list.add(mapa.get(id + colunas));
         }
         
+        return list;
     }
- 
+   
     
-    public static float calcularH(No noAtual, No noDestino)
-    {
-        int posicaoDestinoX = (noDestino.getId()%AulaBuscas.colunas)+1;
-        int posicaoNoAtualX = (noAtual.getId()%AulaBuscas.colunas)+1;
+    public static void main(String[] args) {
+        // TODO code application logic here
+        criaMapa();
+        configuraMapa();
         
-        int distanciaX = posicaoDestinoX > posicaoNoAtualX ? posicaoDestinoX - posicaoNoAtualX : posicaoNoAtualX - posicaoDestinoX;
+        //System.out.println(mapa.get(0).vizinhos);
         
-        int posicaoDestinoY = (noDestino.getId()/AulaBuscas.linhas)+1;
-        int posicaoNoAtualY = (noAtual.getId()/AulaBuscas.linhas)+1;
+        for(No no: mapa){
+            System.out.println("Noh: "+ no.getId());
+        }
+        System.out.println("--------------------------------");
+        for(No no: mapa.get(37).vizinhos){
+            System.out.println("Noh: "+ no.getId());
+        }
+        System.out.println(AEstrela.procularMenorF());
         
-        int distanciaY = posicaoDestinoY > posicaoNoAtualY ? posicaoDestinoY - posicaoNoAtualY : posicaoNoAtualY - posicaoDestinoY;
         
-        float distanciaTotal = (float)Math.sqrt((Math.pow(distanciaX, 2)+Math.pow(distanciaY, 2)))*10;
-                
-        return distanciaTotal;
     }
     
 }
