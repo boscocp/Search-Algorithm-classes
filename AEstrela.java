@@ -136,6 +136,8 @@ public class AEstrela {
         }
         Collections.reverse(listaAuxiliar);
         
+        
+        //imprimir caminho
         System.out.println("Caminho: ");
         for(No no: listaAuxiliar)
         {
@@ -152,6 +154,8 @@ public class AEstrela {
         System.out.println("");
         desenha(mapa);
         System.out.println("Fim ! ");
+        
+        //retorno do caminho
         return listaAuxiliar;
     }
     
