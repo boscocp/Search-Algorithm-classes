@@ -15,7 +15,15 @@ import java.util.List;
 public class No {
     private int id;
     private float h, g, f;
-    private boolean bloqueado;
+    private boolean bloqueado, visitado;
+
+    public boolean isVisitado() {
+        return visitado;
+    }
+
+    public void setVisitado(boolean visitado) {
+        this.visitado = visitado;
+    }
     private No pai;
     public  List<No> vizinhos = new ArrayList();
 
