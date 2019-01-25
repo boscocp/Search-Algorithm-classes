@@ -23,14 +23,56 @@ public class AEstrela {
     
     public static List<No> aEstrela(No noInicial, No noDestino)
     {
+        listaFechada.clear();
+        listaAberta.clear();
+        caminho.clear();
+        boolean achouCaminho = false;
+    
         No noAtual = noInicial;
         listaAberta.add(noInicial);
         
-        while(true)
+        while(!achouCaminho)
         {
             noAtual = procularMenorF();
+            listaAberta.remove(noAtual);
+            listaFechada.add(noAtual);
+            achouCaminho = noAtual.equals(noDestino);
+            System.out.println("menor F "+ noAtual.getId());
+            
+            for(No no: noAtual.getVizinhos())
+            {
+                if(no.estaBloqueado() || listaFechada.contains(no))
+                {
+                    continue;
+                }else{
+                    if(!listaAberta.contains(no))
+                    {
+                        listaAberta.add(no);
+                        no.setPai(noAtual);
+                        no.setH(calcularH(noAtual, no));
+                        no.setG(calcularG(noAtual, no));
+                        no.setF(calcularF(no));
+                    }else{
+                        if(no.getG()>noAtual.getG())
+                        {
+                            no.setPai(noAtual);
+                            no.setG(calcularG(noAtual, no));
+                            no.setF(calcularF(no));
+                            Collections.sort(listaAberta, Comparator.comparing(No::getF));
+                        }
+                    
+                    }
+                }
+            
+            }
+            if(listaAberta.isEmpty())
+            {
+                System.out.println("Não achou ");
+                return null;
+            }
         }
         
+        return montaCaminho(noInicial, noDestino);
     }
     
     public static No procularMenorF() {
@@ -41,14 +83,9 @@ public class AEstrela {
     
     
        
-    public static void calcularF(No noAtual)
+    public static float calcularF(No no)
     {
-        float F = 0;
-        for(No no: noAtual.getVizinhos())
-        {
-            F= calcularH(noAtual,no) + (float)calcularG(noAtual, no);
-            no.setF(F);
-        }
+        return no.getG()+ no.getH();
 
     }
     
@@ -78,6 +115,30 @@ public class AEstrela {
         float distanciaTotal = (float)Math.sqrt((Math.pow(distanciaX, 2)+Math.pow(distanciaY, 2)))*10;
                 
         return distanciaTotal;
+    }
+
+    private static List<No> montaCaminho(No noInicial, No noDestino) {
+        List<No> listaAuxiliar = new ArrayList();
+        No noAtual = noDestino;
+        int contador = 0;
+        while (!listaAuxiliar.contains(noInicial) || contador > AulaBuscas.mapa.size())
+        {
+            listaAuxiliar.add(noAtual);
+            
+            noAtual = noAtual.getPai();
+                        
+            contador++;
+        }
+        Collections.reverse(listaAuxiliar);
+        
+        System.out.println("Caminho: ");
+        for(No no: listaAuxiliar)
+        {
+            System.out.print(" -> " + no.getId());
+        }
+        System.out.println("");
+        System.out.println("Fim! ");
+        return listaAuxiliar;
     }
     
 }
