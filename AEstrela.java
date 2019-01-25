@@ -55,8 +55,8 @@ public class AEstrela {
                     {
                         listaAberta.add(no);
                         no.setPai(noAtual);
-                        no.setH(calcularH(noAtual, no));
-                        no.setG(calcularG(noAtual, no));
+                        no.setH(calcularH(no, noDestino));
+                        no.setG(calcularG(no, noAtual));
                         no.setF(calcularF(no));
                     }else{
                         if(no.getG()<noAtual.getG())
