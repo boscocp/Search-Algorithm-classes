@@ -121,7 +121,7 @@ public class AulaBuscas {
         for(No no: mapa.get(37).vizinhos){
             System.out.println("Noh: "+ no.getId());
         }
-        System.out.println(AEstrela.procularMenorF());
+        AEstrela.aEstrela(mapa.get(0), mapa.get(35));
         
         
     }
