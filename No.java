@@ -15,8 +15,8 @@ import java.util.List;
 public class No {
     private int id;
     private float h, g, f;
-    private boolean locked;
-    private No parent;
+    private boolean bloqueado;
+    private No pai;
     public  List<No> vizinhos = new ArrayList();
 
     public List<No> getVizinhos() {
@@ -57,20 +57,20 @@ public class No {
 
     
 
-    public boolean isLocked() {
-        return locked;
+    public boolean estaBloqueado() {
+        return bloqueado;
     }
 
-    public void setLocked(boolean locked) {
-        this.locked = locked;
+    public void setBloqueado(boolean bloqueado) {
+        this.bloqueado = bloqueado;
     }
 
-    public No getParent() {
-        return parent;
+    public No getPai() {
+        return pai;
     }
 
-    public void setParent(No parent) {
-        this.parent = parent;
+    public void setPai(No pai) {
+        this.pai = pai;
     }
         
 }
