@@ -29,7 +29,7 @@ public class AulaBuscas {
         System.out.println("--------------------------------");
        
         AEstrela.aEstrela(mapa.getMapa().get(0), mapa.getMapa().get(32), mapa);
-        
+        BuscaEmLargura.bucaEmLargura(mapa.getMapa().get(0), mapa.getMapa().get(32), mapa);
         
     }
     
