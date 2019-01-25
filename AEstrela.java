@@ -141,15 +141,13 @@ public class AEstrela {
         {
             System.out.print(" -> " + no.getId());
         }
-        //artificio apenas para printar caminho
+        //inicio artificio apenas para printar caminho
         for(No no: mapa.getMapa())
         {
-          if(listaAuxiliar.contains(no))
-            System.out.print(" -> " + no.getId());
-          else{
-            no.setPai(null);
-          }
+          if(!listaAuxiliar.contains(no))  no.setPai(null);
+          
         }
+        //fim do artificio
         
         System.out.println("");
         desenha(mapa);
