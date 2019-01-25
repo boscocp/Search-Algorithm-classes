@@ -64,7 +64,6 @@ public class AEstrela {
                             no.setPai(noAtual);
                             no.setG(calcularG(noAtual, no));
                             no.setF(calcularF(no));
-                            Collections.sort(listaAberta, Comparator.comparing(No::getF));
                         }
                     
                     }
@@ -78,7 +77,7 @@ public class AEstrela {
             }
         }
         
-        return montaCaminho(noInicial, noDestino);
+        return montaCaminho(noInicial, noDestino, mapa);
     }
     
     public static No procularMenorF() {
@@ -123,7 +122,7 @@ public class AEstrela {
         return distanciaTotal;
     }
 
-    private static List<No> montaCaminho(No noInicial, No noDestino) {
+    private static List<No> montaCaminho(No noInicial, No noDestino, Mapa mapa) {
         List<No> listaAuxiliar = new ArrayList();
         No noAtual = noDestino;
         int contador = 0;
@@ -142,9 +141,39 @@ public class AEstrela {
         {
             System.out.print(" -> " + no.getId());
         }
+        //artificio apenas para printar caminho
+        for(No no: mapa.getMapa())
+        {
+          if(listaAuxiliar.contains(no))
+            System.out.print(" -> " + no.getId());
+          else{
+            no.setPai(null);
+          }
+        }
+        
         System.out.println("");
-        System.out.println("Fim! ");
+        desenha(mapa);
+        System.out.println("Fim ! ");
         return listaAuxiliar;
+    }
+    
+    public static void desenha(Mapa mapa){
+      System.out.println("");
+      for (int i = 0; i<mapa.getLinhas(); i++)
+        {
+            for (int j = 0; j<mapa.getColunas(); j++)
+            {
+              No no = mapa.getMapa().get((i*mapa.getColunas())+j);
+              if(no.getPai() != null ){
+                System.out.print("[-]");
+              }else if(no.estaBloqueado()){
+                System.out.print("[X]");
+              }else{
+                System.out.print("[ ]");
+              }
+            }
+             System.out.println();
+        }
     }
     
 }
