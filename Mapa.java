@@ -112,7 +112,7 @@ public class Mapa {
         }
         //pegar vizinho cima
         if (linhaDoNo > 1) {
-            list.add(mapa.get((id - linhas)+1));
+            list.add(mapa.get((id - linhas)));
         }
         //pegar vizinho baixo
         if (linhaDoNo < mapa.size()/linhas) {
