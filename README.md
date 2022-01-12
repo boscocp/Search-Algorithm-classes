@@ -1,4 +1,3 @@
-# Aula-de-buscas
+# Search Algorithm classes
 
-Estes códigos foram desenvolvidos pelo professor Adalberto Bosco Castro Pereira em parceria com Pedro Afonso.
-Esse projeto foi pensado para ser disponibilizado e discutido em sala de aula como forma de favorecer a aprendizagem de programação e implementação de técnicas de busca da disciplina de inteligência artifical.
+These codes were developed by Professor Adalberto Bosco Castro Pereira in partnership with Pedro Afonso. This project was designed to be made available and discussed in the classroom as a way to favor the learning of programming and implementation of search techniques for the discipline of artificial intelligence.
